@@ -10,7 +10,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		right
 	};
 
-	class classPhysicsComponent
+	class classPhysicsComponentAbstract
 	{
 	protected:
 		bool moveForward;
@@ -18,10 +18,11 @@ namespace MY_NS_PHYSICS_COMPONENT
 		bool moveLeft;
 		bool moveRight;
 	public:
-		classPhysicsComponent(void);
+		classPhysicsComponentAbstract(void);
 		virtual void gameCycle(void) = 0;
 		void setMoveDirection(Direction direction, bool resetOther = false);
 		void resetMoveDirection(Direction direction = undefined);
-		~classPhysicsComponent(void);
+		virtual bool mouseMove(int x, int y) = 0;
+		~classPhysicsComponentAbstract(void);
 	};
 }

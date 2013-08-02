@@ -1,7 +1,7 @@
-#include "classPhysicsComponent.h"
+#include "classPhysicsComponentAbstract.h"
 namespace MY_NS_PHYSICS_COMPONENT
 {
-	classPhysicsComponent::classPhysicsComponent(void)
+	classPhysicsComponentAbstract::classPhysicsComponentAbstract(void)
 	{
 		this->moveForward = false;
 		this->moveBackward = false;
@@ -9,7 +9,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		this->moveRight = false;
 	}
 
-	void classPhysicsComponent::setMoveDirection(Direction direction, bool resetOther)
+	void classPhysicsComponentAbstract::setMoveDirection(Direction direction, bool resetOther)
 	{
 		if (resetOther) {
 			this->moveForward = false;
@@ -35,7 +35,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		}
 	}
 
-	void classPhysicsComponent::resetMoveDirection(Direction direction)
+	void classPhysicsComponentAbstract::resetMoveDirection(Direction direction)
 	{
 		switch(direction) {
 			case Direction::backward:
@@ -57,7 +57,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 	}
 
 
-	classPhysicsComponent::~classPhysicsComponent(void)
+	classPhysicsComponentAbstract::~classPhysicsComponentAbstract(void)
 	{
 	}
 }

@@ -463,14 +463,14 @@ bool classCharacterWithBodyODE<_PModelAndPRenderer>::mouseMove(int x, int y, int
 		}
 
 
-		float ax_ = ((*this).zahvatX-x) * (2 * pi / windowWidht);
+		float ax_ = ((*this).zahvatX - x) * (2 * pi / windowWidht);
 		
 		if (ax_ >= pi) ax_ -= -2 * pi;
 		if (ax_ <= (-pi)) ax_ += 2 * pi;
 
 		(*this).ay -= ((*this).zahvatY - y) * (pi / windowHeight);
 		if ((*this).ay >= (pi / 2)) (*this).ay = pi / 2;
-		if ((*this).ay <= (-pi / 2)) (*this).ay= -pi / 2;
+		if ((*this).ay <= (-pi / 2)) (*this).ay = -pi / 2;
 
 		(*this).zahvatX = x;
 		(*this).zahvatY = y;

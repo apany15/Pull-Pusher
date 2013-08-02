@@ -1,14 +1,51 @@
-#include "classODEPhysicsComponent.h"
+#include "classPhysicsComponentODE.h"
 #define pi 3.1415926535897932384626433832795
+
+#include "../../../OpenGL_WIN/OpenGL_WIN/my_prgOGL.h"
 
 namespace MY_NS_PHYSICS_COMPONENT
 {
 	
-	void classODEPhysicsComponent::gameCycle(void)
+	void classPhysicsComponentODE::gameCycle(void)
 	{
+		if (this->bodyIsCreated) {
+			if (this->moveForward) {
+				const dReal *linearVel = dBodyGetLinearVel(this->bodyID);
+				dVector3 velInBody;
+				dBodyVectorFromWorld(this->bodyID, linearVel[0], linearVel[1], linearVel[2], velInBody);
+				dReal vel = velInBody[1];
+				dReal nadaForce=(this->vel - vel) * this->MaxForceToMove / this->vel;
+				this->AddForceForward(nadaForce);
+			}
+			if (this->moveBackward) {
+				const dReal *linearVel = dBodyGetLinearVel(this->bodyID);
+				dVector3 velInBody;
+				dBodyVectorFromWorld(this->bodyID, linearVel[0], linearVel[1], linearVel[2], velInBody);
+				dReal vel = -velInBody[1];
+				dReal nadaForce = (this->vel - vel) * this->MaxForceToMove / this->vel;
+				this->AddForceBack(nadaForce);
+			}
+			if (this->moveLeft) {
+				const dReal *linearVel = dBodyGetLinearVel(this->bodyID);
+				dVector3 velInBody;
+				dBodyVectorFromWorld(this->bodyID, linearVel[0], linearVel[1], linearVel[2], velInBody);
+				dReal vel = velInBody[0];
+				dReal nadaForce = (this->vel - vel) * this->MaxForceToMove / this->vel;
+				this->AddForceLeft(nadaForce);
+			}
+			if (this->moveRight) {
+				const dReal *linearVel = dBodyGetLinearVel(this->bodyID);
+				dVector3 velInBody;
+				dBodyVectorFromWorld(this->bodyID, linearVel[0], linearVel[1], linearVel[2], velInBody);
+				dReal vel = -velInBody[0];
+				dReal nadaForce = (this->vel - vel) * this->MaxForceToMove / this->vel;
+				this->AddForceRight(nadaForce);
+			}
+			this->resetMoveDirection();
+		}
 	}
 
-	classODEPhysicsComponent::classODEPhysicsComponent(void)
+	classPhysicsComponentODE::classPhysicsComponentODE(void)
 	{
 		this->sizeX = 0;
 		this->sizeY = 0;
@@ -24,14 +61,17 @@ namespace MY_NS_PHYSICS_COMPONENT
 		this->defaultCollidePartner.mu = dInfinity;			//сила трения с телом
 		this->BackTypeFig = PARALLELEPIPED;
 		this->rotLim = true;
+		this->mouseFirstCatching = true;
+		this->windowWidth = MYPRGOGLMAINWINDOWWIDTH;
+		this->windowHeight = MYPRGOGLMAINWINDOWHEIGHT;
 	}
 
-	classODEPhysicsComponent::~classODEPhysicsComponent(void)
+	classPhysicsComponentODE::~classPhysicsComponentODE(void)
 	{
 		this->DestroyBody();
 	}
 
-	bool classODEPhysicsComponent::CreateBody(dSpaceID space,  dWorldID world, float xx, float yy, float zz)
+	bool classPhysicsComponentODE::CreateBody(dSpaceID space,  dWorldID world, float xx, float yy, float zz)
 	{
 		if (this->bodyIsCreated) return false;
 		if (this->sizeX == 0 || this->sizeY == 0 || this->sizeZ == 0) return false;
@@ -89,7 +129,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return true;
 	}
 
-	void classODEPhysicsComponent::DestroyBody()
+	void classPhysicsComponentODE::DestroyBody()
 	{
 		if (this->bodyIsCreated)
 		{
@@ -101,7 +141,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		}
 	}
 
-	bool classODEPhysicsComponent::SetTotalMass(float totalMass)
+	bool classPhysicsComponentODE::SetTotalMass(float totalMass)
 	{
 		if (!this->bodyIsCreated && totalMass > 0)
 		{
@@ -111,22 +151,22 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	dReal classODEPhysicsComponent::GetTotalMass()
+	dReal classPhysicsComponentODE::GetTotalMass()
 	{
 		return this->total_mass;
 	}
 
-	dBodyID classODEPhysicsComponent::GetBodyID()
+	dBodyID classPhysicsComponentODE::GetBodyID()
 	{
 		return this->bodyID;
 	}
 
-	dGeomID classODEPhysicsComponent::GetGeomID()
+	dGeomID classPhysicsComponentODE::GetGeomID()
 	{
 		return this->geomID;
 	}
 
-	bool classODEPhysicsComponent::SetGeomSize(float dx, float dy, float dz)
+	bool classPhysicsComponentODE::SetGeomSize(float dx, float dy, float dz)
 	{
 		if (!this->bodyIsCreated)
 		{
@@ -141,27 +181,27 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	float classODEPhysicsComponent::GetGeomSizeX()
+	float classPhysicsComponentODE::GetGeomSizeX()
 	{
 		return this->sizeX;
 	}
 
-	float classODEPhysicsComponent::GetGeomSizeY()
+	float classPhysicsComponentODE::GetGeomSizeY()
 	{
 		return this->sizeY;
 	}
 
-	float classODEPhysicsComponent::GetGeomSizeZ()
+	float classPhysicsComponentODE::GetGeomSizeZ()
 	{
 		return this->sizeZ;
 	}
 
-	bool classODEPhysicsComponent::BodyIsCreated()
+	bool classPhysicsComponentODE::BodyIsCreated()
 	{
 		return this->bodyIsCreated;
 	}
 
-	bool classODEPhysicsComponent::AddForceForward(dReal force)
+	bool classPhysicsComponentODE::AddForceForward(dReal force)
 	{
 		if (this->bodyIsCreated)
 		{
@@ -171,7 +211,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	bool classODEPhysicsComponent::AddForceBack(dReal force)
+	bool classPhysicsComponentODE::AddForceBack(dReal force)
 	{
 		if (this->bodyIsCreated)
 		{
@@ -181,7 +221,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	bool classODEPhysicsComponent::AddForceLeft(dReal force)
+	bool classPhysicsComponentODE::AddForceLeft(dReal force)
 	{
 		if (this->bodyIsCreated)
 		{
@@ -191,7 +231,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	bool classODEPhysicsComponent::AddForceRight(dReal force)
+	bool classPhysicsComponentODE::AddForceRight(dReal force)
 	{
 		if (this->bodyIsCreated)
 		{
@@ -201,7 +241,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
-	bool classODEPhysicsComponent::AddForceUp(dReal force)
+	bool classPhysicsComponentODE::AddForceUp(dReal force)
 	{
 		if (this->bodyIsCreated)
 		{
@@ -210,12 +250,14 @@ namespace MY_NS_PHYSICS_COMPONENT
 		}
 		return false;
 	}
-
-	bool classODEPhysicsComponent::mouseMove(int x, int y, int windowWidht, int windowHeight, int *oldx, int *oldy)
+	bool classPhysicsComponentODE::mouseMove(int x, int y, int windowWidht, int windowHeight)
 	{
-
-		if (oldx) (*oldx) = (*this).zahvatX;
-		if (oldy) (*oldy) = (*this).zahvatY;
+		if (this->mouseFirstCatching) {
+			this->mouseOldX = x;
+			this->mouseOldY = y;
+			this->mouseFirstCatching = false;
+		}
+		this->transferASightOnAMousePush(this->mouseOldX, this->mouseOldY);
 
 		if (!bodyIsCreated) return false;
 
@@ -256,8 +298,14 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return false;
 	}
 
+	bool classPhysicsComponentODE::mouseMove(int x, int y)
+	{
+		return this->mouseMove(x, y, this->windowWidth, this->windowHeight);
+	}
+
+
 	//-1 - меня тут вообще нет, 0 - я есть, но данных нет, 1 - установлено
-	int classODEPhysicsComponent::SetCollideOptions(dContact &contact, dGeomID geom1, dGeomID geom2)
+	int classPhysicsComponentODE::SetCollideOptions(dContact &contact, dGeomID geom1, dGeomID geom2)
 	{
 		if (!this->bodyIsCreated) return false;
 		dGeomID myGeom = this->geomID;
@@ -284,7 +332,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return 1;
 	}
 
-	void classODEPhysicsComponent::AddCollidePartner(dGeomID partner_geomID, dReal step, dReal k_elasticity, dReal k_braking, dReal mu, bool setFdir1)
+	void classPhysicsComponentODE::AddCollidePartner(dGeomID partner_geomID, dReal step, dReal k_elasticity, dReal k_braking, dReal mu, bool setFdir1)
 	{
 		str_partner newParnter;
 		newParnter.partner_geomID = partner_geomID;
@@ -296,7 +344,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		this->collidePartners.push_back(newParnter);
 	}
 
-	bool classODEPhysicsComponent::RemoveCollidePartner(dGeomID partner_geomID)
+	bool classPhysicsComponentODE::RemoveCollidePartner(dGeomID partner_geomID)
 	{
 		typeArrayPartners::iterator iter = this->GetPointInfoCollidePartners(partner_geomID);
 		if (iter == this->collidePartners.end()) return false;
@@ -305,7 +353,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 
 	}
 
-	typeArrayPartners::iterator classODEPhysicsComponent::GetPointInfoCollidePartners(dGeomID partner_geomID)
+	typeArrayPartners::iterator classPhysicsComponentODE::GetPointInfoCollidePartners(dGeomID partner_geomID)
 	{
 		typeArrayPartners::iterator iter;
 		const typeArrayPartners::iterator iter_end = this->collidePartners.end();
@@ -314,7 +362,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return iter;
 	}
 
-	bool classODEPhysicsComponent::SetBackTypeFig(int type)
+	bool classPhysicsComponentODE::SetBackTypeFig(int type)
 	{
 		if (this->bodyIsCreated) return false;
 		if (type != PARALLELEPIPED && type != CYLINDER && type != SHAPE) return false;
@@ -322,20 +370,20 @@ namespace MY_NS_PHYSICS_COMPONENT
 		return true;
 	}
 
-	int classODEPhysicsComponent::GetBackTypeFig()
+	int classPhysicsComponentODE::GetBackTypeFig()
 	{
 		return this->BackTypeFig;
 	}
 
 
-	bool classODEPhysicsComponent::SetRotLim(bool b)
+	bool classPhysicsComponentODE::SetRotLim(bool b)
 	{
 		if (this->bodyIsCreated) return false;
 		this->rotLim = b;
 		return true;
 	}
 
-	bool classODEPhysicsComponent::GetRotLim()
+	bool classPhysicsComponentODE::GetRotLim()
 	{
 		return this-> rotLim;
 	}

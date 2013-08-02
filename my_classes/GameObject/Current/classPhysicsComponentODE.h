@@ -1,5 +1,5 @@
 #pragma once
-#include "classphysicscomponent.h"
+#include "../Abstract/classPhysicsComponentAbstract.h"
 
 #include <ode/ode.h>
 #include<vector>
@@ -32,10 +32,18 @@ namespace MY_NS_PHYSICS_COMPONENT
 
 	typedef std::vector<str_partner> typeArrayPartners;
 
-	class classODEPhysicsComponent :
-		public classPhysicsComponent
+	class classPhysicsComponentODE :
+		public classPhysicsComponentAbstract
 	{
 	protected:
+
+		int mouseOldX;
+		int mouseOldY;
+		int mouseFirstCatching;
+		int windowWidth;
+		int windowHeight;
+
+
 		float sizeX;
 		float sizeY;
 		float sizeZ;
@@ -52,10 +60,13 @@ namespace MY_NS_PHYSICS_COMPONENT
 		int BackTypeFig;
 		bool rotLim;	//ограничение поворациваемости при колизиях (необходимо для персонажа от первого лица)
 
+		void transferASightOnAMousePush(int x, int y);
+		bool mouseMove(int x, int y, int windowWidht, int windowHeight);
+
 	public:
 		void gameCycle(void);
-		classODEPhysicsComponent(void);
-		~classODEPhysicsComponent(void);
+		classPhysicsComponentODE(void);
+		~classPhysicsComponentODE(void);
 
 		bool opora;
 		dGeomID oporaGeomID;
@@ -77,8 +88,11 @@ namespace MY_NS_PHYSICS_COMPONENT
 		bool AddForceLeft(dReal force);
 		bool AddForceRight(dReal force);
 		bool AddForceUp(dReal force);
-		void transferASightOnAMousePush(int x, int y);
-		bool mouseMove(int x, int y, int windowWidht, int windowHeight, int *oldx, int *oldy);
+		
+		
+
+		bool mouseMove(int x, int y);
+
 		str_partner_def defaultCollidePartner;
 		//-1 - меня тут вообще нет, 0 - я есть, но данным нет, 1 - установлено 
 		int SetCollideOptions(dContact &contact, dGeomID geom1, dGeomID geom2);

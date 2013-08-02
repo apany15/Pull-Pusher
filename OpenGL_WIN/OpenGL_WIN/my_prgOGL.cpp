@@ -23,6 +23,11 @@ using namespace std;
 //vector<classCharacterWithBodyODE*> arrayPhObject;
 
 
+/*#include "classGameObjectODEMS.h"
+
+classGameObjectODEMS a;*/
+
+
 classTimeControl timer;
 
 classLight *light=NULL;
@@ -641,29 +646,29 @@ extern bool  fullscreen;
 void my_mouseTest(int x, int y, bool lButton, bool rButton, bool mButton)
 {
 
-	static bool setcur=false;
-	static int oldx,oldy;
-	static bool fstart=true;
+	static bool setcur = false;
+	static int oldx, oldy;
+	static bool fstart = true;
 	if (fstart)
 	{
-		fstart=false;
+		fstart = false;
 		//character.transferASightOnAMousePush(0,0,x,y);
-		gameEnv.firstPersonage.transferASightOnAMousePush(x,y);
+		gameEnv.firstPersonage.transferASightOnAMousePush(x, y);
 	}
 	if (setcur) 
 	{
 		//character.transferASightOnAMousePush(0,0,oldx,oldy);
-		gameEnv.firstPersonage.transferASightOnAMousePush(oldx,oldy);
-		setcur=false;
+		gameEnv.firstPersonage.transferASightOnAMousePush(oldx, oldy);
+		setcur = false;
 		return;
 	}
 	//character.mouseMove(x,y,MYPRGOGLMAINWINDOWWIDTH,MYPRGOGLMAINWINDOWHEIGHT,&oldx,&oldy);
-	gameEnv.firstPersonage.mouseMove(x,y,MYPRGOGLMAINWINDOWWIDTH,MYPRGOGLMAINWINDOWHEIGHT,&oldx,&oldy);
+	gameEnv.firstPersonage.mouseMove(x, y, MYPRGOGLMAINWINDOWWIDTH, MYPRGOGLMAINWINDOWHEIGHT, &oldx, &oldy);
 	//if (fullscreen)
 	ShowCursor(false);
 	//{
-		SetCursorPos(oldx,oldy);
-		setcur=true;
+		SetCursorPos(oldx, oldy);
+		setcur = true;
 	//}
 }
 
