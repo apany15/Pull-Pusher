@@ -13,7 +13,8 @@
 #define MYPRGOGLMAINWINDOWSTARTNFULLSRC 0	//старт в окне
 #define MYPRGOGLMAINWINDOWSTARTFULLSRCASC 2	//спросить как стартовать у юзера
 //#define MYPRGOGLMAINWINDOWSTART MYPRGOGLMAINWINDOWSTARTNFULLSRC	//тут нада выбрать сейчас способ старта
-#define MYPRGOGLMAINWINDOWSTART MYPRGOGLMAINWINDOWSTARTFULLSRCASC	//тут нада выбрать сейчас способ старта
+//#define MYPRGOGLMAINWINDOWSTART MYPRGOGLMAINWINDOWSTARTFULLSRCASC	//тут нада выбрать сейчас способ старта
+#define MYPRGOGLMAINWINDOWSTART MYPRGOGLMAINWINDOWSTARTNFULLSRC	//тут нада выбрать сейчас способ старта
 
 void my_initOGL(void);	//инициализация OpenGL
 void my_drawResizeWindowOGL(GLsizei width, GLsizei height);	//изменение размеров окна
