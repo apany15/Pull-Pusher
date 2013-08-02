@@ -391,38 +391,6 @@
 				RelativePath="..\..\my_classes\ODEGLLIB.cpp"
 				>
 			</File>
-			<Filter
-				Name="GameObject"
-				>
-				<Filter
-					Name="Abstract"
-					>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classGameObjectAbstract.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classGraphComponentAbstract.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classPhysicsComponentAbstract.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Current"
-					>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Current\classGameObjectODEMS.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Current\classPhysicsComponentODE.cpp"
-						>
-					</File>
-				</Filter>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -477,38 +445,6 @@
 				RelativePath="..\..\my_classes\ODEGLLIB.h"
 				>
 			</File>
-			<Filter
-				Name="GameObject"
-				>
-				<Filter
-					Name="Abstract"
-					>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classGameObjectAbstract.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classGraphComponentAbstract.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Abstract\classPhysicsComponentAbstract.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Current"
-					>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Current\classGameObjectODEMS.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\my_classes\GameObject\Current\classPhysicsComponentODE.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
