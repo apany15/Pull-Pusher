@@ -53,7 +53,7 @@ namespace MY_NS_PHYSICS_COMPONENT
 		bool rotLim;	//ограничение поворациваемости при колизиях (необходимо для персонажа от первого лица)
 
 	public:
-		
+		void gameCycle(void);
 		classODEPhysicsComponent(void);
 		~classODEPhysicsComponent(void);
 
